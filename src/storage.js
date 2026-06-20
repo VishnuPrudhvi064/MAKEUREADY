@@ -148,6 +148,26 @@ export const getCurrentUser = () => {
   return user ? JSON.parse(user) : null;
 };
 
+export const updateUser = (userId, updatedData) => {
+  const users = getFromStorage('users');
+  const index = users.findIndex(u => u.id === userId);
+  if (index !== -1) {
+    const updatedUser = { ...users[index], ...updatedData };
+    users[index] = updatedUser;
+    saveToStorage('users', users);
+    
+    // If the updated user is the currently logged-in user, update currentUser too
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.id === userId) {
+      const safeUser = { ...updatedUser };
+      delete safeUser.password;
+      saveToStorage('currentUser', safeUser);
+    }
+    return true;
+  }
+  return false;
+};
+
 // --- PACKAGES ---
 export const addPackage = (packageData) => {
   const packages = getFromStorage('packages');

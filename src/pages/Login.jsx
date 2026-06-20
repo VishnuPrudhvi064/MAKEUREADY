@@ -51,9 +51,9 @@ export const Login = () => {
               <button 
                 className="btn-outline" 
                 onClick={() => setLoginRole('BRIDE')}
-                style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '1.2rem', borderColor: 'var(--accent-pink)', color: 'var(--text-main)' }}
+                style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '1.2rem', borderColor: 'var(--primary-color)', color: 'var(--text-main)' }}
               >
-                <User size={24} color="var(--accent-pink)" />
+                <User size={24} color="var(--primary-color)" />
                 Continue as Client
               </button>
               
@@ -83,7 +83,7 @@ export const Login = () => {
               {isRegistering ? 'Fill in your details below' : 'Enter your details to access your dashboard'}
             </p>
             
-            {error && <div style={{ color: '#e74c3c', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
+            {error && <div style={{ color: 'var(--error-color)', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
               {isRegistering && (

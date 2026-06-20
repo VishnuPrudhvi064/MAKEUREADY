@@ -81,7 +81,9 @@ export const ArtistDashboard = () => {
             <p className="glass" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No bookings yet.</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {bookings.map((booking, idx) => (
+              {bookings.map((booking, idx) => {
+                const statusColor = booking.status === 'PENDING' ? 'var(--warning-color)' : booking.status === 'CONFIRMED' ? 'var(--success-color)' : 'var(--error-color)';
+                return (
                 <motion.div 
                   key={booking.id} 
                   className="glass"
@@ -93,10 +95,7 @@ export const ArtistDashboard = () => {
                   <div style={{ flex: '1 1 200px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
                       <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{booking.eventType}</h3>
-                      <div style={{ padding: '0.2rem 0.5rem', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 600, 
-                        background: booking.status === 'PENDING' ? '#f39c12' : booking.status === 'CONFIRMED' ? '#2ecc71' : '#e74c3c',
-                        color: '#fff'
-                      }}>
+                      <div style={{ padding: '0.3rem 0.8rem', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', background: 'var(--accent-secondary)', color: statusColor, border: `1px solid ${statusColor}` }}>
                         {booking.status}
                       </div>
                     </div>
@@ -119,12 +118,13 @@ export const ArtistDashboard = () => {
                     {booking.status === 'PENDING' && (
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <button className="btn-primary" onClick={() => handleStatusChange(booking.id, 'CONFIRMED')} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Accept</button>
-                        <button className="btn-outline" onClick={() => handleStatusChange(booking.id, 'REJECTED')} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem', color: '#e74c3c', borderColor: '#e74c3c' }}>Reject</button>
+                        <button className="btn-outline" onClick={() => handleStatusChange(booking.id, 'REJECTED')} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem', color: 'var(--error-color)', borderColor: 'var(--error-color)' }}>Reject</button>
                       </div>
                     )}
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
