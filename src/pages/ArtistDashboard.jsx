@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, Calendar, Package, Image as ImageIcon, MessageSquare, DollarSign, Settings, Heart, Bell, Plus, Trash2, ShieldCheck, CheckCircle, X, Upload, MapPin } from 'lucide-react';
