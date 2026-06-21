@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, registerUser } from '../storage';
+import { useApp } from '../context/AppContext';
 import { motion } from 'framer-motion';
 import { User, Sparkles } from 'lucide-react';
 
@@ -14,24 +14,23 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login, register } = useApp();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isRegistering) {
-      const res = registerUser({ role: loginRole, name, email, phone, password });
+      const res = register({ role: loginRole, name, email, phone, password });
       if (res.success) {
         if (loginRole === 'ARTIST') navigate('/artist');
         else if (loginRole === 'BRIDE') navigate('/bride');
-        window.location.reload();
       } else {
         setError(res.message);
       }
     } else {
-      const user = loginUser(email, password);
+      const user = login(email, password);
       if (user && user.role === loginRole) {
         if (user.role === 'ARTIST') navigate('/artist');
         else if (user.role === 'BRIDE') navigate('/bride');
-        window.location.reload(); 
       } else {
         setError(`Invalid credentials for ${loginRole === 'BRIDE' ? 'Client' : 'Artist'}.`);
       }
@@ -51,9 +50,9 @@ export const Login = () => {
               <button 
                 className="btn-outline" 
                 onClick={() => setLoginRole('BRIDE')}
-                style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '1.2rem', borderColor: 'var(--accent-pink)', color: 'var(--text-main)' }}
+                style={{ padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '1.2rem', borderColor: 'var(--primary-color)', color: 'var(--text-main)' }}
               >
-                <User size={24} color="var(--accent-pink)" />
+                <User size={24} color="var(--primary-color)" />
                 Continue as Client
               </button>
               
@@ -83,7 +82,7 @@ export const Login = () => {
               {isRegistering ? 'Fill in your details below' : 'Enter your details to access your dashboard'}
             </p>
             
-            {error && <div style={{ color: '#e74c3c', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
+            {error && <div style={{ color: 'var(--error-color)', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
               {isRegistering && (

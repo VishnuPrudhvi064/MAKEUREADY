@@ -110,13 +110,17 @@ export const registerUser = (userData) => {
   const newUser = {
     ...userData,
     id: userData.role === 'BRIDE' ? 'b_' + Date.now() : 'new_a_' + Date.now(),
-    profileImage: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=random&size=400',
+    profileImage: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=1a1a1a&color=d4af37&size=400',
     average_rating: 5.0, // New artists get default 5 star rating
     reviews_count: 0,
     specialty: 'Salon & Bridal Makeup', // Default specialty
     location: 'Delhi NCR',
     experience_years: 1,
-    bio: 'Professional artist ready to make your day special.'
+    bio: 'Professional artist ready to make your day special.',
+    portfolio: [],
+    blockedDates: [],
+    instagram: '',
+    isVerified: false
   };
   users.push(newUser);
   saveToStorage('users', users);
@@ -146,6 +150,26 @@ export const logoutUser = () => {
 export const getCurrentUser = () => {
   const user = localStorage.getItem('currentUser');
   return user ? JSON.parse(user) : null;
+};
+
+export const updateUser = (userId, updatedData) => {
+  const users = getFromStorage('users');
+  const index = users.findIndex(u => u.id === userId);
+  if (index !== -1) {
+    const updatedUser = { ...users[index], ...updatedData };
+    users[index] = updatedUser;
+    saveToStorage('users', users);
+    
+    // If the updated user is the currently logged-in user, update currentUser too
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.id === userId) {
+      const safeUser = { ...updatedUser };
+      delete safeUser.password;
+      saveToStorage('currentUser', safeUser);
+    }
+    return true;
+  }
+  return false;
 };
 
 // --- PACKAGES ---
