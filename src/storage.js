@@ -75,6 +75,9 @@ export const MOCK_PACKAGES = [
 ];
 
 export const initMockData = () => {
+  // Ensure we never automatically sign in from previous sessions by clearing any old localStorage auth data
+  localStorage.removeItem('currentUser');
+  
   const users = localStorage.getItem('users');
   if (!users) {
     const defaultBride = {
@@ -99,8 +102,26 @@ export const initMockData = () => {
   }
 };
 
-export const getFromStorage = (key) => JSON.parse(localStorage.getItem(key) || '[]');
-export const saveToStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+export const getFromStorage = (key) => {
+  if (key === 'currentUser') {
+    return JSON.parse(sessionStorage.getItem(key) || 'null');
+  }
+  return JSON.parse(localStorage.getItem(key) || '[]');
+};
+
+export const saveToStorage = (key, data) => {
+  if (key === 'currentUser') {
+    if (data === null) {
+      sessionStorage.removeItem(key);
+      localStorage.removeItem(key); // Clear old localStorage data
+    } else {
+      sessionStorage.setItem(key, JSON.stringify(data));
+      localStorage.removeItem(key); // Ensure it's not in localStorage anymore
+    }
+  } else {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+};
 
 export const registerUser = (userData) => {
   const users = getFromStorage('users');
@@ -111,9 +132,9 @@ export const registerUser = (userData) => {
     ...userData,
     id: userData.role === 'BRIDE' ? 'b_' + Date.now() : 'new_a_' + Date.now(),
     profileImage: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=1a1a1a&color=d4af37&size=400',
-    average_rating: 5.0, // New artists get default 5 star rating
+    average_rating: 5.0,
     reviews_count: 0,
-    specialty: 'Salon & Bridal Makeup', // Default specialty
+    specialty: 'Salon & Bridal Makeup',
     location: 'Delhi NCR',
     experience_years: 1,
     bio: 'Professional artist ready to make your day special.',
@@ -144,11 +165,12 @@ export const loginUser = (email, password) => {
 };
 
 export const logoutUser = () => {
+  sessionStorage.removeItem('currentUser');
   localStorage.removeItem('currentUser');
 };
 
 export const getCurrentUser = () => {
-  const user = localStorage.getItem('currentUser');
+  const user = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
   return user ? JSON.parse(user) : null;
 };
 

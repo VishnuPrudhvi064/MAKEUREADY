@@ -6,12 +6,12 @@ import { Search, Heart, Calendar, Sparkles, ChevronDown, Star } from 'lucide-rea
 import { useApp } from '../context/AppContext';
 
 const CATEGORIES = [
-  { id: 1, title: 'Bridal HD Makeup & Saree', image: '/bride.jpg' },
-  { id: 2, title: 'Mehendi Art', image: '/mehendi.jpg' },
-  { id: 3, title: 'Premium Hair Styling', image: '/hair.jpg' },
-  { id: 4, title: 'Nail Art & Polishing', image: '/nails.jpg' },
-  { id: 5, title: 'Pre-Bridal & Salon Services', image: '/salon.jpg' },
-  { id: 6, title: 'Bridal Jewelry Ornaments', image: '/jewelry.jpg' }
+  { id: 1, title: 'Bridal HD Makeup & Saree', image: '/bridal-makeup.png' },
+  { id: 2, title: 'Mehendi Art', image: '/mehandi.png' },
+  { id: 3, title: 'Premium Hair Styling', image: '/hairstyle.png' },
+  { id: 4, title: 'Nail Art & Polishing', image: '/nail-art.png' },
+  { id: 5, title: 'Pre-Bridal & Salon Services', image: '/spa.png' },
+  { id: 6, title: 'Bridal Jewelry Ornaments', image: '/jewellery.png' }
 ];
 
 export const Home = () => {
@@ -110,8 +110,8 @@ export const Home = () => {
               <motion.div variants={{ rest: { scale: 1 }, hover: { scale: 1.08 } }} transition={{ duration: 0.6, ease: "easeOut" }} style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
                 <img src={cat.image} alt={cat.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </motion.div>
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', boxSizing: 'border-box', padding: '3rem 1.5rem 1.5rem 1.5rem', background: 'linear-gradient(to top, rgba(26,14,16,0.95) 0%, rgba(26,14,16,0.6) 40%, transparent 100%)', color: 'var(--text-main)', display: 'flex', alignItems: 'flex-end', zIndex: 10 }}>
-                <h3 style={{ margin: 0, fontSize: '18px', lineHeight: 1.3, fontWeight: 600, letterSpacing: '0.5px', wordBreak: 'normal', overflowWrap: 'normal', whiteSpace: 'normal', hyphens: 'none', maxWidth: '100%' }}>{cat.title}</h3>
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%', boxSizing: 'border-box', padding: '3rem 1.5rem 1.5rem 1.5rem', background: 'linear-gradient(to top, rgba(26,14,16,1) 0%, rgba(26,14,16,0.8) 50%, transparent 100%)', color: 'var(--text-main)', display: 'flex', alignItems: 'flex-end', zIndex: 10 }}>
+                <h3 style={{ margin: 0, fontSize: '18px', lineHeight: 1.3, fontWeight: 700, letterSpacing: '0.5px', wordBreak: 'normal', overflowWrap: 'normal', whiteSpace: 'normal', hyphens: 'none', maxWidth: '100%', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{cat.title}</h3>
               </div>
             </motion.div>
           ))}
